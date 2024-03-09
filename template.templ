@@ -24,7 +24,9 @@ templ Index(content ...templ.Component) {
 		</head>
 		<body>
 			<main>
-                ...@content
+                for _, c := range content {
+                    @c
+                }
             </main>
 			<script src="/static/scripts/fncmp.min.js"></script>
 		</body>

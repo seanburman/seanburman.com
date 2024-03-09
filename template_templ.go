@@ -23,7 +23,17 @@ func Index(content ...templ.Component) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html><head><title>Sean Burman</title><!-- <meta http-equiv=\"refresh\" content=\"0; url=/my-great-new-post/index.html\"> --><meta name=\"apple-mobile-web-app-capable\" content=\"yes\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><link rel=\"manifest\" href=\"manifest.json\"><link rel=\"stylesheet\" href=\"/assets/stylesheets/tailwind.min.css\"><link href=\"https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css\" rel=\"stylesheet\"><script src=\"/static/assets/custom.js\"></script><style>\n        body {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            flex-direction: column;\n            height: 100vh;\n            width: 100vw;\n        }\n    </style></head><body><main>...@content</main><script src=\"/static/scripts/fncmp.min.js\"></script></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html><head><title>Sean Burman</title><!-- <meta http-equiv=\"refresh\" content=\"0; url=/my-great-new-post/index.html\"> --><meta name=\"apple-mobile-web-app-capable\" content=\"yes\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><link rel=\"manifest\" href=\"manifest.json\"><link rel=\"stylesheet\" href=\"/static/stylesheets/tailwind.min.css\"><link href=\"https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css\" rel=\"stylesheet\"><script src=\"/static/assets/custom.js\"></script><style>\n        body {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            flex-direction: column;\n            height: 100vh;\n            width: 100vw;\n        }\n    </style></head><body><main>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		for _, c := range content {
+			templ_7745c5c3_Err = c.Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</main><script src=\"/static/scripts/fncmp.min.js\"></script></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
