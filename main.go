@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"net/http"
+	"os"
 
 	"github.com/kitkitchen/fncmp"
 )
@@ -20,5 +21,5 @@ func main() {
 	mux := http.NewServeMux()
 	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	mux.HandleFunc("/", fncmp.MiddleWareFn(handleIndex, handlIndexFn))
-	http.ListenAndServe(":8080", mux)
+	http.ListenAndServe(":"+os.Getenv("PORT"), mux)
 }
