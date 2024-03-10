@@ -9,6 +9,6 @@
         "type": "image/png"
       }
     ],
-    "start_url": "/static/",
+    "start_url": "/",
     "display": "standalone"
   }
