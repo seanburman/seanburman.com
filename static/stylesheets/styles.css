@@ -1,3 +1,21 @@
+.fade-in {
+  animation-name: inline-uqee92s;
+  animation-duration: 500;
+  animation-iteration-count: once;
+}
+@keyframes inline-uqee92s {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
+.square {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+}
 
 /*# sourceMappingURL=styles.css.map */

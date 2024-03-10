@@ -10,16 +10,16 @@ minify:
 	./es-build
 
 compile: templ
-	tsc -p "static/assets/"
+	tsc -p "static/scripts"
 	./es-build
-	./tailwindcss -i static/assets/stylesheets/tailwind.css -o static/assets/stylesheets/tailwind.min.css --minify
-	sass static/assets/sass:static/assets/stylesheets
+	./tailwindcss -i static/stylesheets/tailwind.css -o static/stylesheets/tailwind.min.css --minify
+	sass static/sass:static/stylesheets
 
 tsc:
-	tsc -p "static/assets/" --watch
+	tsc -p "static/scripts" --watch
 
 tailwind:
-	./tailwindcss -i static/assets/stylesheets/tailwind.css -o static/assets/stylesheets/tailwind.min.css --watch --minify
+	./tailwindcss -i static/stylesheets/tailwind.css -o static/stylesheets/tailwind.min.css --watch --minify
 
 sass:
-	sass --watch static/assets/sass:static/assets/stylesheets
+	sass --watch static/sass:static/stylesheets
