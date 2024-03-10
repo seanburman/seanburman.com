@@ -30,10 +30,10 @@ func Env() Vars {
 	}
 
 	return Vars{
-		PORT:         os.Getenv("PORT"),
-		POSTGRES_URI: os.Getenv("POSTGRES_URI"),
-		MONGO_URI:    os.Getenv("MONGO_URI"),
-		JWT_SECRET:   os.Getenv("JWT_SECRET"),
-		VERSION:      os.Getenv("VERSION"),
+		PORT: os.Getenv("PORT"),
+		// POSTGRES_URI: os.Getenv("POSTGRES_URI"),
+		// MONGO_URI:    os.Getenv("MONGO_URI"),
+		// JWT_SECRET:   os.Getenv("JWT_SECRET"),
+		// VERSION:      os.Getenv("VERSION"),
 	}
 }
