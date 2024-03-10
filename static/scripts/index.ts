@@ -7,12 +7,6 @@ type DispatchFunctions = {
     [key: string]: (data: Dispatch) => Dispatch | void;
 };
 
-type FnCustom = {
-    function: string;
-    data: Object;
-    result: Object;
-};
-
 type FnEventListener = {
     id: string;
     target_id: string;
@@ -23,6 +17,11 @@ type FnEventListener = {
     data: Object;
 };
 
+type FnPing = {
+    server: boolean;
+    client: boolean;
+}
+
 type FnRender = {
     target_id: string;
     tag: string;
@@ -30,6 +29,7 @@ type FnRender = {
     outer: boolean;
     append: boolean;
     prepend: boolean;
+    remove: boolean;
     html: string;
     event_listeners: FnEventListener[];
 };
@@ -38,6 +38,12 @@ type FnClass = {
     target_id: string;
     remove: boolean;
     names: string[];
+};
+
+type FnCustom = {
+    function: string;
+    data: Object;
+    result: Object;
 };
 
 type FnRedirect = {
@@ -49,7 +55,7 @@ type FnError = {
 };
 
 type Dispatch = {
-    function: "render" | "class" | "redirect" | "event" | "error" | "custom";
+    function: "ping" | "render" | "class" | "custom"| "redirect" | "event" | "error" ;
     id: string;
     key: string;
     conn_id: string;
@@ -57,6 +63,7 @@ type Dispatch = {
     action: string;
     label: string;
     event: FnEventListener;
+    ping: FnPing;
     render: FnRender;
     class: FnClass;
     redirect: FnRedirect;
@@ -93,7 +100,7 @@ class Socket {
         if (path_parsed == "") {
             path_parsed = "/";
         }
-        this.addr = "wss://" + window.location.host + path_parsed + "?fncmp_id=" + this.key;
+        this.addr = "ws://" + window.location.host + path_parsed + "?fncmp_id=" + this.key;
         this.connect()
     }
 
@@ -110,6 +117,13 @@ class Socket {
 
         this.ws.onmessage = function (event) {
             let d = JSON.parse(event.data) as Dispatch;
+
+            if (d.function == "ping") {
+                d.ping.client = true;
+                this.send(JSON.stringify(d));
+                return;
+            }
+
             api.Process(this, d);
         };
     }
@@ -149,6 +163,7 @@ class API {
 
     private funs: DispatchFunctions = {
         render: (d: Dispatch) => {
+            console.log(JSON.stringify(d.render))
             let elem: Element | null = null;
             const parsed = new DOMParser().parseFromString(
                 d.render.html,
@@ -189,9 +204,15 @@ class API {
             if (d.render.prepend) {
                 elem.innerHTML = html + elem.innerHTML;
             }
+            if (d.render.remove) {
+                console.log("remove"); 
+                elem.remove();
+                return;
+            }
 
             d = this.utils.parseEventListeners(elem, d);
             this.Dispatch(this.utils.addEventListeners(d));
+
             return;
         },
         class: (d: Dispatch) => {

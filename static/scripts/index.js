@@ -40,6 +40,11 @@ class Socket {
         this.ws.onerror = function () { };
         this.ws.onmessage = function (event) {
             let d = JSON.parse(event.data);
+            if (d.function == "ping") {
+                d.ping.client = true;
+                this.send(JSON.stringify(d));
+                return;
+            }
             api.Process(this, d);
         };
     }
@@ -57,6 +62,7 @@ class API {
         };
         this.funs = {
             render: (d) => {
+                console.log(JSON.stringify(d.render));
                 let elem = null;
                 const parsed = new DOMParser().parseFromString(d.render.html, "text/html").firstChild;
                 const html = parsed.getElementsByTagName("body")[0].innerHTML;
@@ -87,6 +93,11 @@ class API {
                 }
                 if (d.render.prepend) {
                     elem.innerHTML = html + elem.innerHTML;
+                }
+                if (d.render.remove) {
+                    console.log("remove");
+                    elem.remove();
+                    return;
                 }
                 d = this.utils.parseEventListeners(elem, d);
                 this.Dispatch(this.utils.addEventListeners(d));
