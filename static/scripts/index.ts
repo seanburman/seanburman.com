@@ -93,7 +93,7 @@ class Socket {
         if (path_parsed == "") {
             path_parsed = "/";
         }
-        this.addr = "ws://" + window.location.host + path_parsed + "?fncmp_id=" + this.key;
+        this.addr = "wss://" + window.location.host + path_parsed + "?fncmp_id=" + this.key;
         this.connect()
     }
 
