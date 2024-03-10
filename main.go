@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/kitkitchen/fncmp"
+	"github.com/seanburman/seanburman.com/config"
 	"github.com/seanburman/seanburman.com/handlers"
 	"github.com/seanburman/seanburman.com/template"
 )
@@ -18,6 +19,5 @@ func main() {
 	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	mux.HandleFunc("/", fncmp.MiddleWareFn(handleIndex, handlers.HandleLoginFn))
 	mux.HandleFunc("/login", fncmp.MiddleWareFn(handleIndex, handlers.HandleLoginFn))
-	// http.ListenAndServe(":"+os.Getenv("PORT"), mux)
-	http.ListenAndServe(":8080", mux)
+	http.ListenAndServe(":"+config.Env().PORT, mux)
 }
