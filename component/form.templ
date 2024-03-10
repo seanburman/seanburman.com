@@ -1,0 +1,50 @@
+package component
+
+import "github.com/seanburman/seanburman.com/types"
+
+
+// Form accepts ID, Class, and Children fields for cfg
+templ Form(cfg types.ComponentConfig) {
+    <form id={cfg.ID} class={cfg.Class}>
+        for _, c := range cfg.Children {
+            @c
+        }
+    </form>
+}
+
+// Input accepts ID, Class, Name, Value, Placeholder, and Type fields for cfg
+templ Input(cfg types.ComponentConfig) {
+    <input id={cfg.ID} class={cfg.Class} name={cfg.Name} value={cfg.Value} placeholder={cfg.Placeholder} type={cfg.Type}/>
+}
+
+// Label accepts ID, Class, For, and Label fields for cfg
+templ Label(cfg types.ComponentConfig) {
+    <label id={cfg.ID} class={cfg.Class} for={cfg.For}>
+        {cfg.Label}
+    </label>
+}
+
+// TextArea accepts ID, Class, Name, and Value fields for cfg
+templ TextArea(cfg types.ComponentConfig) {
+    <textarea id={cfg.ID} class={cfg.Class} name={cfg.Name}>
+        {cfg.Value}
+    </textarea>
+}
+
+// Button accepts ID, Class, Type, and Value fields for cfg
+templ Button(cfg types.ComponentConfig) {
+    <button id={cfg.ID} class={cfg.Class} type={cfg.Type}>
+        {cfg.Value}
+    </button>
+}
+
+// Select accepts ID, Class, Name, and Options fields for cfg
+templ Select(cfg types.ComponentConfig) {
+    <select id={cfg.ID} class={cfg.Class} name={cfg.Name}>
+        for _, o := range cfg.Options {
+            <option value={o.Value}>
+                {o.Label}
+            </option>
+        }
+    </select>
+}

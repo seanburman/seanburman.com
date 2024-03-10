@@ -17,7 +17,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 func main() {
 	mux := http.NewServeMux()
 	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
-	mux.HandleFunc("/", fncmp.MiddleWareFn(handleIndex, handlers.HandleLoginFn))
+	mux.HandleFunc("/", fncmp.MiddleWareFn(handleIndex, handlers.HandleIndexFn))
 	mux.HandleFunc("/login", fncmp.MiddleWareFn(handleIndex, handlers.HandleLoginFn))
 	http.ListenAndServe(":"+config.Env().PORT, mux)
 }

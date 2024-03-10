@@ -1,4 +1,8 @@
-function Testing(msg) {
-    console.log(msg)
-    return msg
+function Dimensions() {
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+    console.log({
+        width: width,
+        height: height
+    })
 }

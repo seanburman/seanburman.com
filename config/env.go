@@ -2,6 +2,8 @@ package config
 
 import (
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
 // Type Vars
@@ -19,7 +21,7 @@ type Vars struct {
 func Env() Vars {
 	// Load if not a test. This isn't required during testing.
 	// if flag.Lookup("test.v") == nil {
-	// 	err := godotenv.Load()
+	godotenv.Load()
 	// 	if err != nil {
 	// 		log.Fatal("Error loading environment variables")
 	// 	}
