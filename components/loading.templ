@@ -16,3 +16,17 @@ templ LoadingSpinner(content ...templ.Component) {
     </div>
 	</div>
 }
+
+templ LogoSpinner(content ...templ.Component) {
+	<div id={LoadingSpinnerID} class="flex items-center justify-center flex-col w-full h-full">
+    <div>
+		<img class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" src="/static/icon.png" alt="logo" />
+    </div>
+    <div>
+		for _, c := range content {
+            @c
+        }
+    </div>
+	</div>
+}
+

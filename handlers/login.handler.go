@@ -31,13 +31,13 @@ func HandleLoginFn(ctx context.Context) fncmp.FnComponent {
 
 	// Register button with it's own event
 	register := fncmp.NewFn(ctx, components.BlackButton("Register")).
-		WithEvents(handleRegisterClick, fncmp.OnClick)
+		WithEvents(handleClickRegister, fncmp.OnClick)
 	// Login form that returns data on submit
 	return fncmp.NewFn(ctx, components.LoginForm(register)).
 		WithEvents(handleLoginEvent, fncmp.OnSubmit)
 }
 
-func handleRegisterClick(ctx context.Context) fncmp.FnComponent {
+func handleClickRegister(ctx context.Context) fncmp.FnComponent {
 	return fncmp.NewFn(ctx, nil).WithRedirect("/register")
 }
 
@@ -53,9 +53,10 @@ func handleLoginEvent(ctx context.Context) fncmp.FnComponent {
 	}
 
 	// Show loading spinner
-	msg := fncmp.HTML("<h2 style='margin-top: 10px;'>Logging in...</h2>")
-	fncmp.NewFn(ctx, components.LoadingSpinner(msg)).
-		SwapTagInner(template.HeaderTag).Dispatch()
+	// msg := fncmp.HTML("<h2 style='margin-top: 10px;'>Logging in...</h2>")
+	// fncmp.NewFn(ctx, components.LogoSpinner(msg)).
+	// 	SwapTagInner(template.FooterTag).Dispatch()
+	fncmp.AddClasses(ctx, "logo", "animate-spin")
 
 	// Get user from database
 	creds, err := models.NewUser(db.Instance, login.UserName, login.Password, "")
@@ -65,32 +66,40 @@ func handleLoginEvent(ctx context.Context) fncmp.FnComponent {
 	}
 	user, err := creds.Get(db.Instance)
 	if err != nil {
-		if errors.Is(err, models.ErrUserNotFound) || errors.Is(err, models.ErrWrongPassword) {
-			components.AlertMessage(ctx, err.Error()).
-				SwapTagInner(template.HeaderTag).Dispatch()
-			return fncmp.FnErr(ctx, err)
+		if errors.Is(err, models.ErrUserNotFound) {
+			return components.AlertMessage(ctx, err.Error()).
+				SwapTagInner(template.FooterTag)
 		}
+		return fncmp.FnErr(ctx, err)
 	}
 
 	// Check password
 	ok := user.Authenticate(login.Password)
 	if !ok {
-		components.AlertMessage(ctx, models.ErrWrongPassword.Error()).
-			SwapTagInner(template.HeaderTag).Dispatch()
-		return fncmp.FnErr(ctx, err)
+		return components.AlertMessage(ctx, models.ErrWrongPassword.Error()).
+			SwapTagInner(template.FooterTag)
 	}
 
 	// Store user in cache
-	authenticatedUser, err := fncmp.UseCache[models.User](ctx, types.UserKey)
+	userCache, err := fncmp.UseCache[models.User](ctx, types.UserKey)
 	if err != nil {
 		return fncmp.FnErr(ctx, err)
 	}
-	authenticatedUser.Set(*user, 24*time.Hour)
+	fncmp.OnCacheChange(userCache, func() {
+		fmt.Println("Cache updated")
+	})
+
+	userCache.Set(*user, 24*time.Hour)
 
 	fmt.Println(login)
 	return fncmp.NewFn(ctx, nil).WithRedirect("/")
 }
 
-func handleLogoutEvent(ctx context.Context) fncmp.FnComponent {
+func handleClickLogout(ctx context.Context) fncmp.FnComponent {
+	cache, err := fncmp.UseCache[models.User](ctx, types.UserKey)
+	if err != nil {
+		return fncmp.FnErr(ctx, err)
+	}
+	cache.Delete()
 	return fncmp.NewFn(ctx, nil).WithRedirect("/")
 }

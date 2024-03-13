@@ -23,25 +23,25 @@ func handleRegisterEvent(ctx context.Context) fncmp.FnComponent {
 
 	if register.Password != register.ConfirmPassword {
 		return components.AlertMessage(ctx, models.ErrPasswordsDoNotMatch.Error()).
-			SwapTagInner(template.HeaderTag)
+			SwapTagInner(template.FooterTag)
 	}
 
 	// Show loading spinner
 	msg := fncmp.HTML("<h2 style='margin-top: 10px;'>Registering " + register.UserName + "...</h2>")
-	fncmp.NewFn(ctx, components.LoadingSpinner(msg)).
-		SwapTagInner(template.HeaderTag).
+	fncmp.NewFn(ctx, components.LogoSpinner(msg)).
+		SwapTagInner(template.FooterTag).
 		Dispatch()
 
 	// Create user in database
 	newUser, err := models.NewUser(db.Instance, register.UserName, register.Password, register.Email)
 	if err != nil {
 		return components.AlertMessage(ctx, "An error occured. Please try again.").
-			SwapTagInner(template.HeaderTag)
+			SwapTagInner(template.FooterTag)
 	}
 	_, err = newUser.Create(db.Instance)
 	if err != nil {
 		return components.AlertMessage(ctx, err.Error()).
-			SwapTagInner(template.HeaderTag)
+			SwapTagInner(template.FooterTag)
 	}
 
 	// Set user in cache

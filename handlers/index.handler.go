@@ -21,7 +21,5 @@ func HandleIndexFn(ctx context.Context) fncmp.FnComponent {
 		return fncmp.RedirectURL(ctx, "/login")
 	}
 
-	return fncmp.NewFn(ctx, template.Index(
-		fncmp.HTML("<h1>Hello, "+user.Value().Username+"</h1>"),
-	))
+	return fncmp.NewFn(ctx, fncmp.HTML("<h1>Hello, "+user.Value().Username+"</h1>"))
 }

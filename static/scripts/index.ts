@@ -1,7 +1,4 @@
-// let functions: DispatchFunctions;
-let conn_id: string | undefined = undefined;
-let base_url: string | undefined = undefined;
-let verbose = false;
+var did_connect = false;
 
 type DispatchFunctions = {
     [key: string]: (data: Dispatch) => Dispatch | void;
@@ -111,8 +108,20 @@ class Socket {
             throw new Error("ws: failed to connect to server...");
         }
 
-        this.ws.onopen = function () {};
-        this.ws.onclose = function () {};
+        this.ws.onopen = function () {
+            did_connect = true;
+        };
+        this.ws.onclose = function () {
+            if (did_connect) {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 30000);
+            }
+        };
         this.ws.onerror = function () {};
 
         this.ws.onmessage = function (event) {

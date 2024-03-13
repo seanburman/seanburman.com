@@ -1,7 +1,4 @@
-// let functions: DispatchFunctions;
-let conn_id = undefined;
-let base_url = undefined;
-let verbose = false;
+var did_connect = false;
 class Socket {
     constructor() {
         this.ws = null;
@@ -35,8 +32,21 @@ class Socket {
         catch (_a) {
             throw new Error("ws: failed to connect to server...");
         }
-        this.ws.onopen = function () { };
-        this.ws.onclose = function () { };
+        this.ws.onopen = function () {
+            did_connect = true;
+        };
+        this.ws.onclose = function () {
+            if (did_connect) {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }
+            else {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 30000);
+            }
+        };
         this.ws.onerror = function () { };
         this.ws.onmessage = function (event) {
             let d = JSON.parse(event.data);
@@ -162,7 +172,7 @@ class API {
                         d.function = "event";
                         d.event = listener;
                         switch (listener.on) {
-                            case "submit":
+                            case "submit" || "change":
                                 d = this.utils.parseFormData(ev, d);
                                 break;
                             case "pointerdown" || "pointerup" || "pointermove" || "click" || "contextmenu" || "dblclick":
@@ -177,7 +187,7 @@ class API {
                             case "keydown" || "keyup" || "keypress":
                                 d.event.data = ParseKeyboardEvent(ev);
                                 break;
-                            case "change" || "input" || "invalid" || "reset" || "search" || "select" || "focus" || "blur" || "copy" || "cut" || "paste":
+                            case "input" || "invalid" || "reset" || "search" || "select" || "focus" || "blur" || "copy" || "cut" || "paste":
                                 d.event.data = ParseEventTarget(ev.target);
                                 break;
                             case "touchstart" || "touchend" || "touchmove" || "touchcancel":
