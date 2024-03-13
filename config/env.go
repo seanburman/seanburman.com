@@ -18,7 +18,7 @@ type Vars struct {
 // Env() returns Vars struct of environment variables
 func Env() Vars {
 	env := os.Getenv("ENVIRONMENT")
-	if env == "development" {
+	if env == "development" || env == "" {
 		godotenv.Load(".env")
 	}
 	return Vars{
