@@ -1,4 +1,4 @@
-package component
+package components
 
 import (
 	"context"
@@ -8,22 +8,30 @@ import (
 	"github.com/seanburman/seanburman.com/types"
 )
 
+type RegisterFormDetails struct {
+	UserName        string `json:"username"`
+	Password        string `json:"password"`
+	ConfirmPassword string `json:"confirm-password"`
+	Email           string `json:"email"`
+}
+
 func RegisterForm(ctx context.Context) fncmp.FnComponent {
 	return fncmp.NewFn(ctx, Form(types.ComponentConfig{
 		ID:    "register-form",
-		Class: "flex flex-col bg-white p-8 rounded-lg shadow-md",
+		Class: "flex flex-col bg-white p-8 rounded-lg shadow-md w-96",
 		Children: []fncmp.Component{
 			Label(types.ComponentConfig{
-				For:   "email",
+				For:   "username",
 				Class: class.Label.String(),
-				Label: "Email",
+				Label: "Username",
 			}),
 			Input(types.ComponentConfig{
-				ID:          "email",
+				ID:          "username",
+				Name:        "username",
 				Class:       class.Input.Add(class.MB4).String(),
-				Type:        "email",
-				Name:        "email",
-				Placeholder: "Email",
+				Type:        "text",
+				Placeholder: "Username",
+				Required:    "true",
 			}),
 			Label(types.ComponentConfig{
 				For:   "password",
@@ -32,10 +40,11 @@ func RegisterForm(ctx context.Context) fncmp.FnComponent {
 			}),
 			Input(types.ComponentConfig{
 				ID:          "password",
+				Name:        "password",
 				Class:       class.Input.Add(class.MB4).String(),
 				Type:        "password",
-				Name:        "password",
 				Placeholder: "Password",
+				Required:    "true",
 			}),
 			Label(types.ComponentConfig{
 				For:   "confirm-password",
@@ -44,10 +53,11 @@ func RegisterForm(ctx context.Context) fncmp.FnComponent {
 			}),
 			Input(types.ComponentConfig{
 				ID:          "confirm-password",
+				Name:        "confirm-password",
 				Class:       class.Input.Add(class.MB4).String(),
 				Type:        "password",
-				Name:        "confirm-password",
 				Placeholder: "Confirm Password",
+				Required:    "true",
 			}),
 			Button(types.ComponentConfig{
 				ID:    "register",

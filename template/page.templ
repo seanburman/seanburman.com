@@ -2,6 +2,12 @@ package template
 
 import "github.com/seanburman/seanburman.com/types"
 
+const (
+	MainTag = "main"
+	BodyTag = "body"
+	HeaderTag = "header"
+)
+
 templ Page(cfg types.ComponentConfig, content ...templ.Component) {
 	<div class={cfg.Class}>
 		for _, c := range cfg.Children {
@@ -29,19 +35,30 @@ templ Index(content ...templ.Component) {
 			<style>
 				body {
 					display: flex;
-					justify-content: center;
-					align-items: center;
 					flex-direction: column;
 					height: 100vh;
 					width: 100vw;
 				}
+				header {
+					width: 100vw;
+				}
+				main {
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					flex: 1;
+					height: 100%;
+				}
     		</style>
 		</head>
+		<header></header>
 		<body>
-			for _, c := range content {
-				@c
-			}
-			<main></main>
+			<main>
+				for _, c := range content {
+					@c
+				}
+			</main>
 			<script src="/static/scripts/index.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 		</body>

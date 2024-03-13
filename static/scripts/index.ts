@@ -163,7 +163,6 @@ class API {
 
     private funs: DispatchFunctions = {
         render: (d: Dispatch) => {
-            console.log(JSON.stringify(d.render))
             let elem: Element | null = null;
             const parsed = new DOMParser().parseFromString(
                 d.render.html,
@@ -205,7 +204,6 @@ class API {
                 elem.innerHTML = html + elem.innerHTML;
             }
             if (d.render.remove) {
-                console.log("remove"); 
                 elem.remove();
                 return;
             }
@@ -274,7 +272,7 @@ class API {
                     d.function = "event";
                     d.event = listener;
                     switch (listener.on) {
-                        case "submit":
+                        case "submit" || "change":
                             d = this.utils.parseFormData(ev, d);
                             break;
                         case "pointerdown" || "pointerup" || "pointermove"||  "click" || "contextmenu" || "dblclick" :
@@ -289,7 +287,7 @@ class API {
                         case "keydown" || "keyup" || "keypress":
                             d.event.data = ParseKeyboardEvent(ev as KeyboardEvent);
                             break;
-                        case "change" || "input" || "invalid" || "reset" || "search" || "select" || "focus" || "blur" || "copy" || "cut" || "paste":
+                        case "input" || "invalid" || "reset" || "search" || "select" || "focus" || "blur" || "copy" || "cut" || "paste":
                             d.event.data = ParseEventTarget(ev.target);
                             break;
                         case "touchstart" || "touchend" || "touchmove" || "touchcancel":

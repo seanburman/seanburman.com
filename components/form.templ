@@ -1,4 +1,4 @@
-package component
+package components
 
 import "github.com/seanburman/seanburman.com/types"
 
@@ -14,7 +14,7 @@ templ Form(cfg types.ComponentConfig) {
 
 // Input accepts ID, Class, Name, Value, Placeholder, and Type fields for cfg
 templ Input(cfg types.ComponentConfig) {
-    <input id={cfg.ID} class={cfg.Class} name={cfg.Name} value={cfg.Value} placeholder={cfg.Placeholder} type={cfg.Type}/>
+    <input id={cfg.ID} class={cfg.Class} name={cfg.Name} value={cfg.Value} placeholder={cfg.Placeholder} type={cfg.Type} required={cfg.Required}/>
 }
 
 // Label accepts ID, Class, For, and Label fields for cfg
@@ -26,7 +26,7 @@ templ Label(cfg types.ComponentConfig) {
 
 // TextArea accepts ID, Class, Name, and Value fields for cfg
 templ TextArea(cfg types.ComponentConfig) {
-    <textarea id={cfg.ID} class={cfg.Class} name={cfg.Name}>
+    <textarea id={cfg.ID} class={cfg.Class} name={cfg.Name} required={cfg.Required}>
         {cfg.Value}
     </textarea>
 }
@@ -40,7 +40,7 @@ templ Button(cfg types.ComponentConfig) {
 
 // Select accepts ID, Class, Name, and Options fields for cfg
 templ Select(cfg types.ComponentConfig) {
-    <select id={cfg.ID} class={cfg.Class} name={cfg.Name}>
+    <select id={cfg.ID} class={cfg.Class} name={cfg.Name} required={cfg.Required}>
         for _, o := range cfg.Options {
             <option value={o.Value}>
                 {o.Label}

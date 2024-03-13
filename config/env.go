@@ -11,24 +11,20 @@ import (
 // Environment variables
 type Vars struct {
 	PORT         string
-	POSTGRES_URI string
-	MONGO_URI    string
-	JWT_SECRET   string
-	VERSION      string
+	DATABASE_URL string
+	ENVIRONMENT  string
 }
 
 // Env() returns Vars struct of environment variables
 func Env() Vars {
-	// Load if not a test. This isn't required during testing.
-	// if flag.Lookup("test.v") == nil {
-	godotenv.Load()
-	// 	if err != nil {
-	// 		log.Fatal("Error loading environment variables")
-	// 	}
-	// }
-
+	env := os.Getenv("ENVIRONMENT")
+	if env == "development" {
+		godotenv.Load(".env")
+	}
 	return Vars{
-		PORT: os.Getenv("PORT"),
+		PORT:         os.Getenv("PORT"),
+		DATABASE_URL: os.Getenv("DATABASE_URL"),
+		ENVIRONMENT:  env,
 		// POSTGRES_URI: os.Getenv("POSTGRES_URI"),
 		// MONGO_URI:    os.Getenv("MONGO_URI"),
 		// JWT_SECRET:   os.Getenv("JWT_SECRET"),

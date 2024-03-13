@@ -2,3 +2,4 @@ es-build
 tailwindcss
 *.DS_Store
 .env
+*index.js*

@@ -1,3 +1,5 @@
+// Package class
+
 package class
 
 import "strings"

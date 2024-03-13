@@ -12,6 +12,12 @@ import "bytes"
 
 import "github.com/seanburman/seanburman.com/types"
 
+const (
+	MainTag   = "main"
+	BodyTag   = "body"
+	HeaderTag = "header"
+)
+
 func Page(cfg types.ComponentConfig, content ...templ.Component) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
@@ -78,7 +84,7 @@ func Index(content ...templ.Component) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html><head><title>Sean Burman</title><!-- <meta http-equiv=\"refresh\" content=\"0; url=/my-great-new-post/index.html\"> --><meta name=\"apple-mobile-web-app-capable\" content=\"yes\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><link rel=\"manifest\" href=\"/static/manifest.json\"><link rel=\"icon\" href=\"/static/favicon.ico\"><link rel=\"stylesheet\" href=\"/static/stylesheets/styles.css\"><link rel=\"stylesheet\" href=\"/static/stylesheets/tailwind.min.css\"><link href=\"https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css\" rel=\"stylesheet\"><script src=\"/static/scripts/custom.js\"></script><style>\n\t\t\t\tbody {\n\t\t\t\t\tdisplay: flex;\n\t\t\t\t\tjustify-content: center;\n\t\t\t\t\talign-items: center;\n\t\t\t\t\tflex-direction: column;\n\t\t\t\t\theight: 100vh;\n\t\t\t\t\twidth: 100vw;\n\t\t\t\t}\n    \t\t</style></head><body>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html><head><title>Sean Burman</title><!-- <meta http-equiv=\"refresh\" content=\"0; url=/my-great-new-post/index.html\"> --><meta name=\"apple-mobile-web-app-capable\" content=\"yes\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><link rel=\"manifest\" href=\"/static/manifest.json\"><link rel=\"icon\" href=\"/static/favicon.ico\"><link rel=\"stylesheet\" href=\"/static/stylesheets/styles.css\"><link rel=\"stylesheet\" href=\"/static/stylesheets/tailwind.min.css\"><link href=\"https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css\" rel=\"stylesheet\"><script src=\"/static/scripts/custom.js\"></script><style>\n\t\t\t\tbody {\n\t\t\t\t\tdisplay: flex;\n\t\t\t\t\tflex-direction: column;\n\t\t\t\t\theight: 100vh;\n\t\t\t\t\twidth: 100vw;\n\t\t\t\t}\n\t\t\t\theader {\n\t\t\t\t\twidth: 100vw;\n\t\t\t\t}\n\t\t\t\tmain {\n\t\t\t\t\tdisplay: flex;\n\t\t\t\t\tflex-direction: column;\n\t\t\t\t\tjustify-content: center;\n\t\t\t\t\talign-items: center;\n\t\t\t\t\tflex: 1;\n\t\t\t\t\theight: 100%;\n\t\t\t\t}\n    \t\t</style></head><header></header><body><main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -88,7 +94,7 @@ func Index(content ...templ.Component) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main></main><script src=\"/static/scripts/index.js\"></script><script src=\"https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js\"></script></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</main><script src=\"/static/scripts/index.js\"></script><script src=\"https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js\"></script></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
