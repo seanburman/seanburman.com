@@ -163,6 +163,7 @@ class API {
                         d.event = listener;
                         switch (listener.on) {
                             case "submit":
+                                console.log(...ev)
                                 d = this.utils.parseFormData(ev, d);
                                 break;
                             case "pointerdown" || "pointerup" || "pointermove" || "click" || "contextmenu" || "dblclick":

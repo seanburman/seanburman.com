@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/kitkitchen/fncmp"
@@ -20,6 +21,14 @@ type Login struct {
 }
 
 func HandleLoginFn(ctx context.Context) fncmp.FnComponent {
+	request, ok := ctx.Value(fncmp.RequestKey).(*http.Request)
+	if !ok {
+		return fncmp.FnErr(ctx, errors.New("could not get request"))
+	}
+
+	// TODO: Once we can get the original request, we can use this to redirect to the original page
+	fmt.Println(request.URL.Path)
+
 	// Register button with it's own event
 	register := fncmp.NewFn(ctx, components.BlackButton("Register")).
 		WithEvents(handleRegisterClick, fncmp.OnClick)
