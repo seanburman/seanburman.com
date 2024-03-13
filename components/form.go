@@ -30,7 +30,7 @@ func RegisterForm(ctx context.Context) fncmp.FnComponent {
 				Name:        "username",
 				Class:       class.Input.Add(class.MB4).String(),
 				Type:        "text",
-				Placeholder: "Username",
+				Placeholder: "",
 				Required:    "true",
 			}),
 			Label(types.ComponentConfig{

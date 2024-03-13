@@ -81,3 +81,7 @@ func handleLoginEvent(ctx context.Context) fncmp.FnComponent {
 	fmt.Println(login)
 	return fncmp.NewFn(ctx, nil).WithRedirect("/")
 }
+
+func handleLogoutEvent(ctx context.Context) fncmp.FnComponent {
+	return fncmp.NewFn(ctx, nil).WithRedirect("/")
+}
